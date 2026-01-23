@@ -1,0 +1,56 @@
+.channel-grid {
+    width: auto;
+    max-height: 70vh;
+
+    margin-top: 4vh;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1.5vmin;
+
+    align-content: center;
+    justify-content: center;
+
+    aspect-ratio: 16/9; /* 4*4 / 3*3 */
+}
+
+@media (orientation: portrait) {
+    .channel-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        
+        aspect-ratio: 1; /* 4*3 / 3*4 */
+    }
+}
+
+.channel-grid .channel {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+.channel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(39, 39, 39, 0.918);
+}
+
+.channel-overlay {
+    transition: opacity 0.2s;;
+}
+
+.channel-overlay[data-state="hidden"] {
+    opacity: 0;
+    pointer-events: none;;
+}
+
+.channel-overlay[data-state="visible"] {
+    opacity: 1;
+}
