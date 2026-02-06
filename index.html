@@ -2,26 +2,20 @@
 <html>
 <head>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="channels.css">
 <title>brood.channel</title>
 </head>
 <body>
 <div class="wii-menu">
-    <div class="channel-grid">
-        <div class="channel" data-channel-name="disc"></div>
-        <div class="channel" data-channel-name="lastfm"></div>
-        <div class="channel" data-channel-name="letterboxd"></div>
-        <div class="channel"></div>
-        <div class="channel"></div>
-        <div class="channel"></div>
-        <div class="channel"></div>
-        <div class="channel"></div>
-        <div class="channel"></div>
-        <div class="channel"></div>
-        <div class="channel"></div>
-        <div class="channel"></div>
+    <div class="menu-viewport">
+        <div class="menu-track"></div>
     </div>
 </div>
-<div class="channel-overlay" data-state="hidden"></div>
+<div class="channel-banner" data-state="hidden" data-channel="none">
+    <div class="channel-banner-content"></div>
+    <div class="channel-banner-footer"></div>
+</div>
+<script src="channels.js"></script>
 <script src="main.js"></script>
 </body>
 </html> 
