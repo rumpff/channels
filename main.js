@@ -1,5 +1,10 @@
-const menuTrack = document.querySelector('.menu-track');
 const channelsPerPage = 12;
+
+const menuTrack = document.querySelector('.menu-track');
+const overlay = document.querySelector('.channel-banner');
+const bannerContentContainer = document.querySelector('.channel-banner-content-container')
+const channelBanners = [];
+
 
 function initMenu() {
     createIcons();
@@ -23,8 +28,9 @@ function createIcons() {
         createIcon(channelLayout[channelCount], currentPage)
     }
 
+    // make sure each page is filled up
     let remainingChannelSlots = channelsPerPage - (channelCount % channelsPerPage);
-    for(let i = 0; i < remainingChannelSlots; i++){
+    for(let i = 0; i < remainingChannelSlots; i++) {
         createIcon("empty", currentPage);
     }
 }
@@ -36,26 +42,60 @@ function createIcon(channelId, menuPage) {
     icon.className = "channel-icon"
     icon.dataset.id = channelId;
 
-    if(channelLibrary[channelId].bannerLayout != ``)
-    {
-        icon.addEventListener("click", openChannel(channelId));
+    if(channelLibrary[channelId].bannerLayout != ``) {
+        // channer has a banner and thus is clickable
+        icon.addEventListener("click", () => { openChannel(channelId); });
+        icon.dataset.hasBanner = "true";
+    }
+    else {
+        icon.dataset.hasBanner = "false";
     }
 }
 
 function createBanners() {
+    Object.keys(channelLibrary).forEach(currentChannelId => {
+        let currentBannerLayout = channelLibrary[currentChannelId].bannerLayout;
 
+        if(currentBannerLayout != ``)
+        {
+            let channelBanner = document.createElement('div');
+            bannerContentContainer.appendChild(channelBanner);
+
+            channelBanner.className = "channel-banner-content";
+            channelBanner.dataset.id = currentChannelId;
+            channelBanner.dataset.state = "disabled";
+            channelBanner.innerHTML = currentBannerLayout;
+
+            channelBanners[currentChannelId] = channelBanner;
+        }
+    });
 }
 
-initMenu();
+function disableAllBanners() {
+    Object.keys(channelBanners).forEach(banner => {
+        if(channelBanners[banner].dataset.state != "disabled")
+            disableBanner(banner);
+    });
+}
 
-const overlay = document.querySelector('.channel-banner');
+function disableBanner(channelId) {
+    channelBanners[channelId].dataset.state = "disabled";
+}
 
 overlay.addEventListener("click", closeChannel);
 
 function openChannel(channelId) {
+    
+    disableAllBanners();
+
+    channelBanners[channelId].dataset.state = "enabled";
+
     overlay.dataset.state = "visible";
+    overlay.dataset.channel = channelId;
 }
 
 function closeChannel() {
     overlay.dataset.state = "hidden";
 }
+
+initMenu();

@@ -1,4 +1,4 @@
-const channelLayout = ["disc"];
+const channelLayout = ["disc", "lastfm"];
 
 const channelLibrary = {
     "empty": {   
@@ -12,6 +12,20 @@ const channelLibrary = {
     },
     
     "disc": {
+        iconLayout:`
+            <div class="mii-grid-preview">
+                <div class="mii-head"></div>
+                <div class="mii-head"></div>
+            </div>`,
+        bannerLayout:`
+            <div class="mii-grid-preview">
+                <div class="mii-head"></div>
+                <div class="mii-head"></div>
+            </div>`,
+        playURL: ""
+    },
+
+    "lastfm": {
         iconLayout:`
             <div class="mii-grid-preview">
                 <div class="mii-head"></div>
