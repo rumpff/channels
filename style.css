@@ -3,6 +3,30 @@
     --channel-aspect-height: 9;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; 
+}
+
+/* -- menu -- */
+.menu {
+    will-change: transform;
+    backface-visibility: hidden;
+
+min-height: 100vh;
+    display: flex; /* Optional: helps with layout */
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.menu[data-state="inactive"] {
+    pointer-events: none;
+}
+
 .menu-page {
     width: auto;
     max-height: 70vh;
@@ -35,28 +59,93 @@
 .menu-page .channel-icon {
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: rgb(182, 182, 182);
 }
 
-.channel-banner {
+.menu-fade-overlay {
     position: absolute;
-    top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
 
-    background-color: rgba(39, 39, 39, 0.918);
+    pointer-events: none;
 }
 
-.channel-banner {
-    transition: opacity 0.2s;;
+/* -- channel banner -- */
+
+.banner {
+    position: fixed;
+    transform-origin: top left;
+
+    background-color: rgba(53, 3, 3, 0.452);
 }
 
-.channel-banner[data-state="hidden"] {
-    opacity: 0;
-    pointer-events: none;;
+.banner[data-state="inactive"] {
+    pointer-events: none;
 }
 
-.channel-banner[data-state="visible"] {
-    opacity: 1;
+.banner[data-state="active"] {
+    pointer-events: all;
+}
+
+.banner-frame {
+    width: calc(90vh / 9 * 16);
+    height: 90vh;
+    border: white 2px solid;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.banner-content-container {
+    pointer-events: none;
+    user-select: none;
+
+    flex-grow: 1;
+}
+.banner-footer {
+    user-select: none;
+
+    height: 20%;
+    flex-shrink: 0;
+
+    background-color: rgb(202, 202, 202);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.banner-content[data-state="enabled"] {
+    display: initial;
+}
+
+.banner-content[data-state="disabled"] {
+    display: none;
+}
+
+.banner-button {
+    background-color: white;
+    border-radius: 500px;
+    width: 30%;
+    margin: 2%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    container-type: size;
+}
+
+.banner-button .label {
+    font-size: 40cqh;
+}
+
+.button {
+    transition: transform .08s linear; 
+}
+.button:hover {
+    transform: scale(1.2);
 }

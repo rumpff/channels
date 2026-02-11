@@ -6,15 +6,25 @@
 <title>brood.channel</title>
 </head>
 <body>
-<div class="wii-menu">
+<div class="menu" data-state="active">
     <div class="menu-viewport">
         <div class="menu-track"></div>
     </div>
     <div class="menu-dock"></div>
+    <div class="menu-fade-overlay"></div>
 </div>
-<div class="channel-banner" data-state="hidden" data-channel="none">
-    <div class="channel-banner-content-container"></div>
-    <div class="channel-banner-footer"></div>
+<div class="banner" data-state="inactive" data-channel="none">
+    <div class="banner-frame">
+        <div class="banner-content-container"></div>
+        <div class="banner-footer">
+            <div class="button banner-button" data-action="return-to-menu">
+                <p class="label">Menu</p>
+            </div>
+            <div class="button banner-button" data-action="launch-channel">
+                <p class="label">Start</p>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="channels.js"></script>
 <script src="main.js"></script>

@@ -8,7 +8,7 @@ const channelLibrary = {
                 <div class="mii-head"></div>
             </div>`,
         bannerLayout: ``,
-        playURL: ""
+        launchURL: ""
     },
     
     "disc": {
@@ -22,7 +22,7 @@ const channelLibrary = {
                 <div class="mii-head"></div>
                 <div class="mii-head"></div>
             </div>`,
-        playURL: ""
+        launchURL: ""
     },
 
     "lastfm": {
@@ -32,10 +32,7 @@ const channelLibrary = {
                 <div class="mii-head"></div>
             </div>`,
         bannerLayout:`
-            <div class="mii-grid-preview">
-                <div class="mii-head"></div>
-                <div class="mii-head"></div>
-            </div>`,
-        playURL: ""
+            <p>last.fm</p>`,
+        launchURL: "https://www.last.fm/user/broodroost3r"
     }
 }
