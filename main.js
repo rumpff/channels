@@ -122,7 +122,9 @@ function bannerZoom(isZoomingIn) {
     const site = menu;
     const mover = banner;
     const target = currentIcon;
-    const timing = '0.8s cubic-bezier(0.65, 0, 0.35, 1)';
+    const timingIn = '0.4s cubic-bezier(0.32, 0, 0.67, 0)';
+    const timingOut = '0.4s cubic-bezier(0.33, 1, 0.68, 1)';
+    let timing;
 
     // 1. PRE-FLIGHT: Kill transitions so we can measure "static" positions
     site.style.transition = mover.style.transition = 'none';
@@ -159,16 +161,19 @@ function bannerZoom(isZoomingIn) {
     const siteMoveX = (vw / 2) - (tRect.left + tRect.width / 2);
     const siteMoveY = (vh / 2) - (tRect.top + tRect.height / 2);
 
-    // 4. SET STARTING POINT
     if (isZoomingIn) {
         // Prepare for Zoom In: Start at the icon
         site.style.transformOrigin = `${originX}px ${originY}px`;
         mover.style.transform = `translate(${returnX}px, ${returnY}px) scale(${returnScale})`;
         mover.style.opacity = 0;
+
+        timing = timingIn;
     } else {
         // Prepare for Zoom Out: Must start from the current zoomed-in position
         site.style.transform = startSiteTransform;
         mover.style.transform = startMoverTransform;
+
+        timing = timingOut
     }
 
     // 5. TRIGGER ANIMATION
