@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="1920px" height="1050px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <path id="channel-mask" d="M960,4.615C1218.93,1.685 1561.353,6.061 1736.791,14.555C1869.138,20.963 1894.297,45.297 1902.843,178.295C1908.129,260.552 1914.491,409.735 1914.491,525.454C1914.491,641.174 1908.129,790.357 1902.843,872.613C1894.297,1005.612 1869.138,1029.945 1736.791,1036.353C1561.353,1044.847 1218.93,1046.294 960,1046.294C701.07,1046.294 358.647,1044.847 183.209,1036.353C50.862,1029.945 25.703,1005.612 17.157,872.613C11.871,790.357 5.509,641.174 5.509,525.454C5.509,409.735 11.871,260.552 17.157,178.295C25.703,45.297 50.862,20.963 183.209,14.555C358.647,6.061 701.07,7.544 960,4.615Z"/>
+</svg>

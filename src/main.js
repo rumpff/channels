@@ -6,8 +6,6 @@ const banner = document.querySelector('.banner');
 const bannerContentContainer = document.querySelector('.banner-content-container')
 const channelBanners = [];
 
-const menuFadeOverlay = document.querySelector(".menu-fade-overlay");
-
 const buttonBannerMenu = document.querySelector('.banner-button[data-action="return-to-menu"]');
 const buttonBannerLaunch = document.querySelector('.banner-button[data-action="launch-channel"]');
 
@@ -19,8 +17,6 @@ function initMenu() {
     createBanners();
 
     buttonBannerMenu.addEventListener("click", closeChannel);
-
-    menuFadeOverlay.style.opacity = 0;
 }
 
 function createIcons() {
@@ -51,8 +47,21 @@ function createIcon(channelId, menuPage) {
     let icon = document.createElement('div');
     menuPage.appendChild(icon);
 
-    icon.className = "channel-icon"
+    icon.className = "channel-icon";
     icon.dataset.id = channelId;
+
+    
+    let iconContent = document.createElement('div');
+    iconContent.className = "channel-icon-content";
+    icon.appendChild(iconContent);
+
+    let iconOutline = document.createElement('img');
+    
+    iconOutline.className = "channel-icon-outline";
+    iconOutline.src = "assets/icon-outline.svg";
+    icon.appendChild(iconOutline);
+
+
 
     if(channelLibrary[channelId].bannerLayout != ``) {
         // channer has a banner and thus is clickable
@@ -164,8 +173,8 @@ function bannerZoom(isZoomingIn) {
     if (isZoomingIn) {
         // Prepare for Zoom In: Start at the icon
         site.style.transformOrigin = `${originX}px ${originY}px`;
-        mover.style.transform = `translate(${returnX}px, ${returnY}px) scale(${returnScale})`;
-        mover.style.opacity = 0;
+        mover.style.transform = `translate3d(${returnX}px, ${returnY}px, 0) scale(${returnScale})`;
+        mover.style.filter = `opacity(0)`;
 
         timing = timingIn;
     } else {
@@ -181,20 +190,22 @@ function bannerZoom(isZoomingIn) {
     requestAnimationFrame(() => {
         site.offsetHeight; // One more flush for safety
         requestAnimationFrame(() => {
-            site.style.transition = `transform ${timing}`;
-            mover.style.transition = `all ${timing}`;
-            menuFadeOverlay.style.transition = `opacity ${timing}`;
+            site.style.transition = `none ${timing}`;
+            site.style.transitionProperty = `transform, filter`;
+
+            mover.style.transition = `none ${timing}`;
+            mover.style.transitionProperty = `transform, filter`;
 
             if (isZoomingIn) {
-                site.style.transform = `translate(${siteMoveX}px, ${siteMoveY}px) scale(${scaleAmount})`;
-                mover.style.transform = `translate(${centerX}px, ${centerY}px) scale(1)`;
-                mover.style.opacity = 1;
-                menuFadeOverlay.style.opacity = 1;
+                site.style.transform = `translate3d(${siteMoveX}px, ${siteMoveY}px, 0) scale(${scaleAmount})`;
+                mover.style.transform = `translate3d(${centerX}px, ${centerY}px, 0) scale(1)`;
+                mover.style.filter = `opacity(1)`;
+                menu.style.filter = `opacity(0)`;
             } else {
-                site.style.transform = `translate(0, 0) scale(1)`;
-                mover.style.transform = `translate(${returnX}px, ${returnY}px) scale(${returnScale})`;
-                mover.style.opacity = 0;
-                menuFadeOverlay.style.opacity = 0;
+                site.style.transform = `translate3d(0, 0, 0) scale(1)`;
+                mover.style.transform = `translate3d(${returnX}px, ${returnY}px, 0) scale(${returnScale})`;
+                mover.style.filter = `opacity(0)`;
+                menu.style.filter = `opacity(1)`;
 
                 // Cleanup after the return animation finishes
                 const onEnd = (e) => {
