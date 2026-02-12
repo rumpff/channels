@@ -6,5 +6,5 @@ window.addEventListener('mousemove', (e) => {
   const y = e.clientY;
   
   // This moves the element without triggering a full page reflow
-  cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+  cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(-10deg)`;
 });
