@@ -125,6 +125,10 @@ html, body {
     transition-duration: 0s;
 }
 
+.menu[data-state="inactive"] .channel-icon-select {
+    visibility: hidden;
+}
+
 .banner {
     /*
     -webkit-mask-image: url('assets/banner-mask.svg');
