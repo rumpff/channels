@@ -58,8 +58,14 @@ function createIcon(channelId, menuPage) {
     let iconOutline = document.createElement('img');
     
     iconOutline.className = "channel-icon-outline";
-    iconOutline.src = "assets/icon-outline.svg";
+    iconOutline.src = "assets/icon-outline.png";
     icon.appendChild(iconOutline);
+
+    let iconSelect = document.createElement('img');
+
+    iconSelect.className = "channel-icon-select";
+    iconSelect.src = "assets/icon-select.png";
+    icon.appendChild(iconSelect);
 
 
 
@@ -174,7 +180,7 @@ function bannerZoom(isZoomingIn) {
         // Prepare for Zoom In: Start at the icon
         site.style.transformOrigin = `${originX}px ${originY}px`;
         mover.style.transform = `translate3d(${returnX}px, ${returnY}px, 0) scale(${returnScale})`;
-        mover.style.filter = `opacity(0)`;
+        mover.style.opacity = 0;
 
         timing = timingIn;
     } else {
@@ -191,21 +197,21 @@ function bannerZoom(isZoomingIn) {
         site.offsetHeight; // One more flush for safety
         requestAnimationFrame(() => {
             site.style.transition = `none ${timing}`;
-            site.style.transitionProperty = `transform, filter`;
+            site.style.transitionProperty = `transform, opacity`;
 
             mover.style.transition = `none ${timing}`;
-            mover.style.transitionProperty = `transform, filter`;
+            mover.style.transitionProperty = `transform, opacity`;
 
             if (isZoomingIn) {
                 site.style.transform = `translate3d(${siteMoveX}px, ${siteMoveY}px, 0) scale(${scaleAmount})`;
                 mover.style.transform = `translate3d(${centerX}px, ${centerY}px, 0) scale(1)`;
-                mover.style.filter = `opacity(1)`;
-                menu.style.filter = `opacity(0)`;
+                mover.style.opacity = 1;
+                menu.style.opacity = 0;
             } else {
                 site.style.transform = `translate3d(0, 0, 0) scale(1)`;
                 mover.style.transform = `translate3d(${returnX}px, ${returnY}px, 0) scale(${returnScale})`;
-                mover.style.filter = `opacity(0)`;
-                menu.style.filter = `opacity(1)`;
+                mover.style.opacity = 0;
+                menu.style.opacity = 1;
 
                 // Cleanup after the return animation finishes
                 const onEnd = (e) => {
