@@ -28,6 +28,7 @@ html, body {
 
 .cursor-shadow {
     opacity: 0.5;
+    filter:blur(2px);
 }
 
 /* -- menu -- */
