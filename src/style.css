@@ -13,18 +13,22 @@ html, body {
   background-color: black;
 }
 
-.cursor {
+.cursor, 
+.cursor-shadow {
     position: fixed;
     top: 0;
     left: 0;
 
-    transition: transform 0.1s ease-out;
     pointer-events: none;
     transform-origin: center;
     will-change: transform;
 
     z-index: 99;
 } 
+
+.cursor-shadow {
+    opacity: 0.5;
+}
 
 /* -- menu -- */
 .menu {
