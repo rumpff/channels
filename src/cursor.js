@@ -18,7 +18,7 @@ window.addEventListener('mousemove', (e) => {
   const x = e.clientX;
   const y = e.clientY;
   
-  const transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(-10deg)`;
+  const transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(-6deg)`;
   
   cursor.style.transform = transform;
   // Offset the shadow slightly so it actually looks like a shadow
