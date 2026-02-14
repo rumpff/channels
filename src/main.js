@@ -4,18 +4,21 @@ const menu = document.querySelector('.menu');
 const menuTrack = document.querySelector('.menu-track');
 const banner = document.querySelector('.banner');
 const bannerContentContainer = document.querySelector('.banner-content-container')
+const channelIcons = [];
 const channelBanners = [];
 
 const buttonBannerMenu = document.querySelector('.banner-button[data-action="return-to-menu"]');
 const buttonBannerLaunch = document.querySelector('.banner-button[data-action="launch-channel"]');
 
 let currentIcon;
+let channelScale;
 
 
 function initMenu() {
     createIcons();
     createBanners();
 
+    observer.observe(channelIcons[0]);
     buttonBannerMenu.addEventListener("click", closeChannel);
 }
 
@@ -77,6 +80,8 @@ function createIcon(channelId, menuPage) {
     else {
         icon.dataset.clickable = "false";
     }
+
+    channelIcons[channelIcons.length] = icon;
 }
 
 function createBanners() {
@@ -228,51 +233,6 @@ function bannerZoom(isZoomingIn) {
     });
 }
 
-/* function animateBanner(iconElement) {
-    console.log(iconElement);
-    
-    let mover = banner;
-    let target = iconElement;
-
-    // 1. KILL TRANSITION IMMEDIATELY
-    // This stops any current movement dead in its tracks
-    mover.style.transition = 'none';
-
-    // 2. Reset to "Home" to get clean coordinates
-    mover.style.transform = 'none';
-
-    // 3. Force Layout Flush
-    mover.offsetHeight; 
-
-    // 4. Calculate the Snap
-    const moverRect = mover.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
-    const snapX = targetRect.left - moverRect.left;
-    const snapY = targetRect.top - moverRect.top;
-
-    const scaleRatio = targetRect.width / moverRect.width;
-
-    // 5. SNAP to target (instantly)
-    mover.style.transform = `translate(${snapX}px, ${snapY}px) scale(0.16)`;
-
-    // 6. THE WAIT
-    // We wait two frames. 
-    // Frame 1: Browser acknowledges the snap.
-    // Frame 2: Browser is ready to start a NEW animation from the snap point.
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            mover.style.transition = 'transform 0.6s ease-out';
-            
-            // Calculate your Step 3 (Center) here
-            const centerX = (window.innerWidth / 2) - (moverRect.width / 2) - moverRect.left;
-            const centerY = (window.innerHeight / 2) - (moverRect.height / 2) - moverRect.top;
-            
-            mover.style.transform = `translate(${centerX}px, ${centerY}px)`;
-        });
-    });
-}
-    */
-
 function snapToTarget(mover, target) {
     // Reset
     mover.style.transition = 'none';
@@ -293,5 +253,13 @@ function launchChannel(channelId) {
     // window.open(channelLibrary[channelId].launchURL, "_self"); 
     console.log(`launching url: ${channelLibrary[channelId].launchURL}`);
 }
+
+const observer = new ResizeObserver(entries => {
+  for (let entry of entries) {
+    const height = entry.contentRect.height;
+    channelScale = height / 200;
+    document.documentElement.style.setProperty('--channel-scale', `${channelScale}`);
+  }
+});
 
 initMenu();

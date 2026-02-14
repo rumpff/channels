@@ -28,11 +28,6 @@ html, body {
     z-index: 99;
 } 
 
-.cursor-shadow {
-    opacity: 0.5;
-    filter:blur(2px);
-}
-
 /* -- menu -- */
 .menu {
     will-change: transform;
@@ -52,7 +47,7 @@ html, body {
 }
 
 .menu-page {
-    width: auto;
+    max-width: 80vw;
     max-height: 70vh;
 
     margin-top: 4vh;
@@ -73,10 +68,11 @@ html, body {
 
 @media (orientation: portrait) {
     .menu-page {
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(6, 1fr);
         
         aspect-ratio: 1; /* 4*3 / 3*4 */
+        aspect-ratio: calc(var(--channel-aspect-width) * 2) / calc((var(--channel-aspect-height) * 6));
     }
 }
 
@@ -120,7 +116,7 @@ html, body {
 
 .channel-icon[data-clickable="true"]:hover .channel-icon-select {
     opacity: 1;
-    transform: scale(1.04);
+    transform: scale(1.03);
 
     transition-duration: 0s;
 }
