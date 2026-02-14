@@ -1,5 +1,6 @@
 const cursorBaseScale = 0.46;
-const shadowOffset = 10;
+const shadowOffset = 5;
+let cursorAngle = -3;
 
 document.body.style.cursor = 'none';
 
@@ -13,7 +14,6 @@ cursor.className = 'cursor';
 cursor.src = 'assets/cursor.png';
 document.body.appendChild(cursor);
 
-let cursorAngle = 0;
 
 updateCursorTransforms(0,0)
 
@@ -25,8 +25,6 @@ window.addEventListener('mousemove', (e) => {
 });
 
 function updateCursorTransforms(x, y) {
-  const transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(-${cursorAngle}deg) scale(calc(var(--channel-scale) * ${cursorBaseScale}))`;
-  
-  cursor.style.transform = transform;
-  cursorShadow.style.transform = transform + ` translate(${shadowOffset}px, ${shadowOffset}px)`; 
+  cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(${cursorAngle}deg) scale(calc(var(--channel-scale) * ${cursorBaseScale}))`;
+  cursorShadow.style.transform = `translate3d(${x + shadowOffset}px, ${y + shadowOffset}px, 0) translate(-50%, -50%) rotate(${cursorAngle}deg) scale(calc(var(--channel-scale) * ${cursorBaseScale}))`;
 }
