@@ -5,9 +5,12 @@ const baseVolume = 0.3;
 const menu = document.querySelector('.menu');
 const menuTrack = document.querySelector('.menu-track');
 const banner = document.querySelector('.banner');
-const bannerContentContainer = document.querySelector('.banner-content-container')
+const bannerContentContainer = document.querySelector('.banner-content-container');
+const bgm = document.getElementById('bgm');
+
 const channelIcons = [];
 const channelBanners = [];
+
 
 const buttonBannerMenu = document.querySelector('.banner-button[data-action="return-to-menu"]');
 const buttonBannerLaunch = document.querySelector('.banner-button[data-action="launch-channel"]');
@@ -26,6 +29,10 @@ function initMenu() {
 
     observer.observe(channelIcons[0]);
     buttonBannerMenu.addEventListener("click", ()=> { closeChannel(); playSound('click.wav');});
+    buttonBannerMenu.addEventListener('mouseenter', () => { playSound("hover.wav");});
+    buttonBannerLaunch.addEventListener('mouseenter', () => { playSound("hover.wav");});
+    bgm.play();
+    bgm.volume = baseVolume;
 }
 
 function createIcons() {
@@ -99,7 +106,7 @@ function createIcon(channelId, menuPage) {
 
 
     icon.addEventListener('mouseenter', () => { 
-        playSound("icon_hover.wav");
+        playSound("hover.wav");
 
         hoverTimer = setTimeout(() => {
             playSound('icon_tooltip.wav', 0.5);
@@ -161,14 +168,16 @@ function openChannel(channelId, icon) {
     buttonBannerLaunch.onclick = () => { launchChannel(channelId); playSound("launch.wav")}, {once: true};
 
     bannerZoom(true);
-    playSound("banner_zoom_in.wav")
+    playSound("banner_zoom_in.wav");
+    bgm.pause();
 }
 
 function closeChannel() {
     menu.dataset.state = "active"
     banner.dataset.state = "inactive";
     bannerZoom(false);
-    playSound("banner_zoom_out.wav")
+    playSound("banner_zoom_out.wav");
+    bgm.play();
 }
 
 function bannerZoom(isZoomingIn) {
