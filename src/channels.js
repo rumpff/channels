@@ -8,7 +8,8 @@ const channelLibrary = {
                 <div class="mii-head"></div>
             </div>`,
         bannerLayout: ``,
-        launchURL: ""
+        launchURL: "",
+        displayName: ""
     },
     
     "disc": {
@@ -22,7 +23,8 @@ const channelLibrary = {
                 <div class="mii-head"></div>
                 <div class="mii-head"></div>
             </div>`,
-        launchURL: ""
+        launchURL: "",
+        displayName: "Disc Channel"
     },
 
     "lastfm": {
@@ -33,6 +35,7 @@ const channelLibrary = {
             </div>`,
         bannerLayout:`
             <p>last.fm</p>`,
-        launchURL: "https://www.last.fm/user/broodroost3r"
+        launchURL: "https://www.last.fm/user/broodroost3r",
+        displayName: "last.fm Channel"
     }
 }

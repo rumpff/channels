@@ -67,7 +67,7 @@ html, body {
     width: 100%;
     height: 100%;
 
-    position: relative
+    position: relative;
 }
 
 .channel-icon-content {
@@ -110,6 +110,55 @@ html, body {
 
 .menu[data-state="inactive"] .channel-icon-select {
     visibility: hidden;
+}
+
+.channel-icon-tooltip {
+    pointer-events: none;
+    
+    position: absolute;
+    z-index: 50;
+
+    width: 120%;
+    height: 40%;
+
+    left: -10%;
+    bottom: -50%;
+
+    background: rgb(255, 255, 255);
+    border-radius: 50000px;
+    border: #aaa calc(var(--channel-scale) * 3px) solid;
+
+    display: grid;
+    place-items: center;
+
+    transition-delay: 0ms;
+    transition-duration: 0.15s;
+    transition-property: opacity, transform;
+    transition-timing-function: ease-out;
+
+    opacity: 0;
+    transform: scale(0.95);
+
+    box-shadow: 0 4px 12px 2px rgba(0, 0, 0, 0.1);
+}
+
+.channel-icon[data-clickable="true"]:hover .channel-icon-tooltip{
+    
+    transition-delay: 300ms;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.channel-icon-tooltip span {
+    text-align: center;
+    font-size: calc(var(--channel-scale) * 50px);
+
+    display: inline-block;
+    width: 90%;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .banner {

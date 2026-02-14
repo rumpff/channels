@@ -70,6 +70,15 @@ function createIcon(channelId, menuPage) {
     iconSelect.src = "assets/icon-select.png";
     icon.appendChild(iconSelect);
 
+    let iconTooltip = document.createElement('div');
+    iconTooltip.className = "channel-icon-tooltip";
+    icon.appendChild(iconTooltip);
+
+    let iconTooltipLabel = document.createElement('span');
+    iconTooltipLabel.className = "channel-icon-tooltip-label";
+    iconTooltipLabel.textContent = channelLibrary[channelId].displayName;
+    iconTooltip.appendChild(iconTooltipLabel);
+
 
 
     if(channelLibrary[channelId].bannerLayout != ``) {
