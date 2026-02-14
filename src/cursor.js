@@ -5,12 +5,14 @@ const baseCursorScale = 0.46;
 const baseShadowOffset = 5;
 const baseCursorAngle = -8;
 
-const cursorAnimationSensitivity = 1.3;
+const cursorAnimationSensitivity = 1.1;
+const cursorAnimationYMult = 0.5;
 
 let cursorAngle = -3;
 
 let lastMove = performance.now();
 let lastX = 0;
+let lastY = 0;
 
 let idleTimer;
 const idleThreshold = 2;
@@ -44,6 +46,7 @@ function initCursor() {
     updateCursorTransforms(e.clientX, e.clientY);
     lastMove = performance.now(); 
     lastX = e.clientX;
+    lastY = e.clientY;
 
     clearTimeout(idleTimer);
     idleTimer = setTimeout(() => { cursorAngle = baseCursorAngle; updateCursorTransforms(e.clientX, e.clientY, false) }, idleThreshold);
@@ -52,7 +55,8 @@ function initCursor() {
 
 function updateCursorTransforms(x, y, calcAngle = true) {
   if(calcAngle) {
-    cursorAngle = clamp(baseCursorAngle + (-(lastX - x) / channelScale * cursorAnimationSensitivity), -90, 90);
+    let rawAngle = (-(lastX - x) + ((lastY - y) * cursorAnimationYMult));
+    cursorAngle = clamp(baseCursorAngle + (rawAngle / channelScale * cursorAnimationSensitivity), -90, 90);
   }
 
   cursor.style.setProperty('--angle', cursorAngle + 'deg');
