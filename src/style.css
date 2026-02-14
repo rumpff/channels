@@ -15,19 +15,6 @@ html, body {
     background-color: black;
 }
 
-.cursor, 
-.cursor-shadow {
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    pointer-events: none;
-    transform-origin: center;
-    will-change: transform;
-
-    z-index: 99;
-} 
-
 /* -- menu -- */
 .menu {
     will-change: transform;

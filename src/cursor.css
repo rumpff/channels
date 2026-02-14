@@ -1,0 +1,20 @@
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.cursor, 
+.cursor-shadow {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    pointer-events: none;
+    transform-origin: center;
+    will-change: transform;
+
+    z-index: 99;
+
+    transition: --angle .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+} 
