@@ -148,34 +148,26 @@ function closeChannel() {
 }
 
 function bannerZoom(isZoomingIn) {
-    const site = menu;
-    const mover = banner;
-    const target = currentIcon;
     const timingIn = '0.4s cubic-bezier(0.32, 0, 0.67, 0)';
     const timingOut = '0.4s cubic-bezier(0.33, 1, 0.68, 1)';
     let timing;
 
-    // 1. PRE-FLIGHT: Kill transitions so we can measure "static" positions
-    site.style.transition = mover.style.transition = 'none';
+    menu.style.transition = banner.style.transition = 'none';
 
-    // If zooming out, we MUST know where we are starting from (the zoomed state)
-    const startSiteTransform = getComputedStyle(site).transform;
-    const startMoverTransform = getComputedStyle(mover).transform;
+    const startSiteTransform = getComputedStyle(menu).transform;
+    const startMoverTransform = getComputedStyle(banner).transform;
 
-    // 2. MEASUREMENT: Reset to natural state to find the "Home" of the icon
-    site.style.transform = 'none';
-    mover.style.transform = 'none';
-    
-    // This is the most important line: force the browser to acknowledge the reset
-    site.offsetHeight; 
+    menu.style.transform = 'none';
+    banner.style.transform = 'none'; 
 
-    const tRect = target.getBoundingClientRect();
-    const mRect = mover.getBoundingClientRect();
-    const sRect = site.getBoundingClientRect();
+    menu.offsetHeight; 
+
+    const tRect = currentIcon.getBoundingClientRect();
+    const mRect = banner.getBoundingClientRect();
+    const sRect = menu.getBoundingClientRect();
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    // 3. MATH
     const scaleAmount = mRect.width / tRect.width;
     const originX = (tRect.left + tRect.width / 2) - sRect.left;
     const originY = (tRect.top + tRect.height / 2) - sRect.top;
@@ -191,52 +183,49 @@ function bannerZoom(isZoomingIn) {
     const siteMoveY = (vh / 2) - (tRect.top + tRect.height / 2);
 
     if (isZoomingIn) {
-        // Prepare for Zoom In: Start at the icon
-        site.style.transformOrigin = `${originX}px ${originY}px`;
-        mover.style.transform = `translate3d(${returnX}px, ${returnY}px, 0) scale(${returnScale})`;
-        mover.style.opacity = 0;
+        menu.style.transformOrigin = `${originX}px ${originY}px`;
+        banner.style.transform = `translate3d(${returnX}px, ${returnY}px, 0) scale(${returnScale})`;
+        banner.style.opacity = 0;
 
         timing = timingIn;
     } else {
-        // Prepare for Zoom Out: Must start from the current zoomed-in position
-        site.style.transform = startSiteTransform;
-        mover.style.transform = startMoverTransform;
+        menu.style.transform = startSiteTransform;
+        banner.style.transform = startMoverTransform;
 
         timing = timingOut
     }
 
-    // 5. TRIGGER ANIMATION
     // Double requestAnimationFrame ensures the "Starting Point" is painted first
     requestAnimationFrame(() => {
-        site.offsetHeight; // One more flush for safety
+        menu.offsetHeight;
         requestAnimationFrame(() => {
-            site.style.transition = `none ${timing}`;
-            site.style.transitionProperty = `transform, opacity`;
+            menu.style.transition = `none ${timing}`;
+            menu.style.transitionProperty = `transform, opacity`;
 
-            mover.style.transition = `none ${timing}`;
-            mover.style.transitionProperty = `transform, opacity`;
+            banner.style.transition = `none ${timing}`;
+            banner.style.transitionProperty = `transform, opacity`;
 
             if (isZoomingIn) {
-                site.style.transform = `translate3d(${siteMoveX}px, ${siteMoveY}px, 0) scale(${scaleAmount})`;
-                mover.style.transform = `translate3d(${centerX}px, ${centerY}px, 0) scale(1)`;
-                mover.style.opacity = 1;
+                menu.style.transform = `translate3d(${siteMoveX}px, ${siteMoveY}px, 0) scale(${scaleAmount})`;
+                banner.style.transform = `translate3d(${centerX}px, ${centerY}px, 0) scale(1)`;
+                banner.style.opacity = 1;
                 menu.style.opacity = 0;
             } else {
-                site.style.transform = `translate3d(0, 0, 0) scale(1)`;
-                mover.style.transform = `translate3d(${returnX}px, ${returnY}px, 0) scale(${returnScale})`;
-                mover.style.opacity = 0;
+                menu.style.transform = `translate3d(0, 0, 0) scale(1)`;
+                banner.style.transform = `translate3d(${returnX}px, ${returnY}px, 0) scale(${returnScale})`;
+                banner.style.opacity = 0;
                 menu.style.opacity = 1;
 
                 // Cleanup after the return animation finishes
                 const onEnd = (e) => {
-                    if (e.target === mover) {
-                        site.style.transition = mover.style.transition = 'none';
-                        site.style.transform = mover.style.transform = '';
-                        site.style.transformOrigin = '';
-                        mover.removeEventListener('transitionend', onEnd);
+                    if (e.target === banner) {
+                        menu.style.transition = banner.style.transition = 'none';
+                        menu.style.transform = banner.style.transform = '';
+                        menu.style.transformOrigin = '';
+                        banner.removeEventListener('transitionend', onEnd);
                     }
                 };
-                mover.addEventListener('transitionend', onEnd);
+                banner.addEventListener('transitionend', onEnd);
             }
         });
     });
