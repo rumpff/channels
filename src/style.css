@@ -144,7 +144,7 @@ html, body {
 
 .channel-icon[data-clickable="true"]:hover .channel-icon-tooltip{
     
-    transition-delay: 300ms;
+    transition-delay: 1000ms;
     opacity: 1;
     transform: scale(1);
 }
