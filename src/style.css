@@ -142,9 +142,9 @@ html, body {
     box-shadow: 0 4px 12px 2px rgba(0, 0, 0, 0.1);
 }
 
-.channel-icon[data-clickable="true"]:hover .channel-icon-tooltip{
+.channel-icon[data-clickable="true"]:hover .channel-icon-tooltip {
     
-    transition-delay: 1000ms;
+    transition-delay: var(--hover-delay);
     opacity: 1;
     transform: scale(1);
 }
@@ -163,8 +163,8 @@ html, body {
 
 .banner {
     /*
-    -webkit-mask-image: url('assets/banner-mask.svg');
-    mask-image: url('assets/banner-mask.svg');
+    -webkit-mask-image: url('assets/img/banner-mask.svg');
+    mask-image: url('assets/img/banner-mask.svg');
 
     mask-type: alpha;
 

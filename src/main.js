@@ -1,4 +1,6 @@
 const channelsPerPage = 12;
+const iconTooltipDelay = 800;
+const baseVolume = 0.3;
 
 const menu = document.querySelector('.menu');
 const menuTrack = document.querySelector('.menu-track');
@@ -10,8 +12,12 @@ const channelBanners = [];
 const buttonBannerMenu = document.querySelector('.banner-button[data-action="return-to-menu"]');
 const buttonBannerLaunch = document.querySelector('.banner-button[data-action="launch-channel"]');
 
+const audioBasePath = "assets/snd/";
+
 let currentIcon;
 let channelScale;
+
+let hoverTimer;
 
 
 function initMenu() {
@@ -19,7 +25,7 @@ function initMenu() {
     createBanners();
 
     observer.observe(channelIcons[0]);
-    buttonBannerMenu.addEventListener("click", closeChannel);
+    buttonBannerMenu.addEventListener("click", ()=> { closeChannel(); playSound('click.wav');});
 }
 
 function createIcons() {
@@ -61,17 +67,18 @@ function createIcon(channelId, menuPage) {
     let iconOutline = document.createElement('img');
     
     iconOutline.className = "channel-icon-outline";
-    iconOutline.src = "assets/icon-outline.png";
+    iconOutline.src = "assets/img/icon-outline.png";
     icon.appendChild(iconOutline);
 
     let iconSelect = document.createElement('img');
 
     iconSelect.className = "channel-icon-select";
-    iconSelect.src = "assets/icon-select.png";
+    iconSelect.src = "assets/img/icon-select.png";
     icon.appendChild(iconSelect);
 
     let iconTooltip = document.createElement('div');
     iconTooltip.className = "channel-icon-tooltip";
+    iconTooltip.style.setProperty('--hover-delay', iconTooltipDelay + 'ms');
     icon.appendChild(iconTooltip);
 
     let iconTooltipLabel = document.createElement('span');
@@ -80,15 +87,30 @@ function createIcon(channelId, menuPage) {
     iconTooltip.appendChild(iconTooltipLabel);
 
 
-
     if(channelLibrary[channelId].bannerLayout != ``) {
         // channer has a banner and thus is clickable
-        icon.addEventListener("click", () => { openChannel(channelId, icon); });
+        icon.addEventListener("click", () => { openChannel(channelId, icon); playSound('click.wav');});
         icon.dataset.clickable = "true";
     }
     else {
         icon.dataset.clickable = "false";
     }
+
+
+
+    icon.addEventListener('mouseenter', () => { 
+        playSound("icon_hover.wav");
+
+        hoverTimer = setTimeout(() => {
+            playSound('icon_tooltip.wav', 0.5);
+        }, iconTooltipDelay);
+    });
+
+    icon.addEventListener('mouseleave', () => {
+        clearTimeout(hoverTimer);
+    });
+
+    // icon.style.
 
     channelIcons[channelIcons.length] = icon;
 }
@@ -136,15 +158,17 @@ function openChannel(channelId, icon) {
     banner.dataset.state = "active";
     banner.dataset.channel = channelId;
 
-    buttonBannerLaunch.addEventListener("click", () => { launchChannel(channelId); }, {once: true});
+    buttonBannerLaunch.onclick = () => { launchChannel(channelId); playSound("launch.wav")}, {once: true};
 
     bannerZoom(true);
+    playSound("banner_zoom_in.wav")
 }
 
 function closeChannel() {
     menu.dataset.state = "active"
     banner.dataset.state = "inactive";
     bannerZoom(false);
+    playSound("banner_zoom_out.wav")
 }
 
 function bannerZoom(isZoomingIn) {
@@ -259,5 +283,18 @@ const observer = new ResizeObserver(entries => {
     document.documentElement.style.setProperty('--channel-scale', `${channelScale}`);
   }
 });
+
+function playSound(soundPath, volume = 1) {
+    const audio = new Audio(audioBasePath + soundPath);
+    audio.volume = volume * baseVolume;
+
+    audio.play().catch(err => {
+    console.warn(err);
+    });
+
+    audio.onended = () => {
+    audio.remove();
+    };
+}
 
 initMenu();

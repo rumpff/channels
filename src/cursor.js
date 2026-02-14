@@ -3,7 +3,7 @@ let cursorShadow;
 
 const baseCursorScale = 0.46;
 const baseShadowOffset = 5;
-const baseCursorAngle = -6;
+const baseCursorAngle = -8;
 
 const cursorAnimationSensitivity = 1.3;
 
@@ -15,6 +15,8 @@ let lastX = 0;
 let idleTimer;
 const idleThreshold = 2;
 
+const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
 initCursor();
 
 
@@ -24,14 +26,14 @@ function initCursor() {
   cursorShadow = document.createElement('img');
 
   cursorShadow.className = 'cursor-shadow';
-  cursorShadow.src = 'assets/cursor-shadow.png';
+  cursorShadow.src = 'assets/img/cursor-shadow.png';
 
   document.body.appendChild(cursorShadow);
 
   cursor = document.createElement('img');
 
   cursor.className = 'cursor';
-  cursor.src = 'assets/cursor.png';
+  cursor.src = 'assets/img/cursor.png';
 
   document.body.appendChild(cursor);
 
@@ -48,11 +50,9 @@ function initCursor() {
   });
 }
 
-
-
 function updateCursorTransforms(x, y, calcAngle = true) {
   if(calcAngle) {
-    cursorAngle = baseCursorAngle + (-(lastX - x) / channelScale * cursorAnimationSensitivity);
+    cursorAngle = clamp(baseCursorAngle + (-(lastX - x) / channelScale * cursorAnimationSensitivity), -90, 90);
   }
 
   cursor.style.setProperty('--angle', cursorAngle + 'deg');
