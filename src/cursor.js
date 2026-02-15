@@ -9,6 +9,7 @@ const cursorAnimationSensitivity = 1.1;
 const cursorAnimationYMult = 0.5;
 
 let cursorAngle = -3;
+let scrolledAngle = 0;
 
 let lastMove = performance.now();
 let lastX = 0;
@@ -51,6 +52,29 @@ function initCursor() {
     clearTimeout(idleTimer);
     idleTimer = setTimeout(() => { cursorAngle = baseCursorAngle; updateCursorTransforms(e.clientX, e.clientY, false) }, idleThreshold);
   });
+
+  window.addEventListener('wheel', (event) => {
+    let stepSize = 24;
+
+    if (event.deltaY > 0) {
+      scrolledAngle -= stepSize;
+
+    } else {
+      scrolledAngle += stepSize;
+    }
+
+    updateCursorTransforms(lastX, lastY);
+  });
+
+  window.addEventListener('mousedown', (event) => {
+    if (event.button === 1) {
+        // Prevent the default "autoscroll" icon from appearing
+        event.preventDefault(); 
+
+        scrolledAngle = Math.round(scrolledAngle / 360) * 360;
+        updateCursorTransforms(lastX, lastY);
+    }
+});
 }
 
 function updateCursorTransforms(x, y, calcAngle = true) {
@@ -59,12 +83,15 @@ function updateCursorTransforms(x, y, calcAngle = true) {
     cursorAngle = clamp(baseCursorAngle + (rawAngle / channelScale * cursorAnimationSensitivity), -90, 90);
   }
 
-  cursor.style.setProperty('--angle', cursorAngle + 'deg');
-  cursorShadow.style.setProperty('--angle', cursorAngle  + 'deg');
+  cursor.style.setProperty('--angleMove', cursorAngle + 'deg');
+  cursorShadow.style.setProperty('--angleMove', cursorAngle  + 'deg');
+
+  cursor.style.setProperty('--angleScroll', scrolledAngle + 'deg');
+  cursorShadow.style.setProperty('--angleScroll', scrolledAngle  + 'deg');
 
   cursor.style.setProperty('--x', `${x}px`);
   cursor.style.setProperty('--y', `${y}px`);
 
-  cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(var(--angle)) scale(calc(var(--channel-scale) * ${baseCursorScale}))`;
-  cursorShadow.style.transform = `translate3d(calc(${x}px + (${baseShadowOffset}px * var(--channel-scale))), calc(${y}px + (${baseShadowOffset}px * var(--channel-scale))), 0) translate(-50%, -50%) rotate(var(--angle)) scale(calc(var(--channel-scale) * ${baseCursorScale}))`;
+  cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(calc(var(--angleMove) + var(--angleScroll))) scale(calc(var(--channel-scale) * ${baseCursorScale}))`;
+  cursorShadow.style.transform = `translate3d(calc(${x}px + (${baseShadowOffset}px * var(--channel-scale))), calc(${y}px + (${baseShadowOffset}px * var(--channel-scale))), 0) translate(-50%, -50%) rotate(calc(var(--angleMove) + var(--angleScroll))) scale(calc(var(--channel-scale) * ${baseCursorScale}))`;
 }

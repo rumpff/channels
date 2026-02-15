@@ -1,4 +1,10 @@
-@property --angle {
+@property --angleMove {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --angleScroll {
   syntax: '<angle>';
   initial-value: 0deg;
   inherits: false;
@@ -16,5 +22,6 @@
 
     z-index: 99;
 
-    transition: --angle .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: --angleMove .2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        --angleScroll .4s cubic-bezier(0.34, 1.56, 0.64, 1);
 } 
