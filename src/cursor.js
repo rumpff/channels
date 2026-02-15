@@ -1,6 +1,8 @@
 let cursor;
 let cursorShadow;
 
+let cursorPlayer = 1;
+
 const baseCursorScale = 0.46;
 const baseShadowOffset = 5;
 const baseCursorAngle = -8;
@@ -36,7 +38,7 @@ function initCursor() {
   cursor = document.createElement('img');
 
   cursor.className = 'cursor';
-  cursor.src = 'assets/img/cursor.png';
+  cursor.src = `assets/img/cursor-${cursorPlayer}.png`;
 
   document.body.appendChild(cursor);
 
@@ -66,7 +68,7 @@ function initCursor() {
     cursor.style.setProperty('--scroll-duration', '0.28s');
     cursorShadow.style.setProperty('--scroll-duration', '0.28s');
 
-    updateCursorTransforms(lastX, lastY);
+    updateCursorTransforms();
   });
 
   window.addEventListener('mousedown', (event) => {
@@ -77,15 +79,22 @@ function initCursor() {
         flipDirection = Math.sign(scrolledAngle % 360 - 180);
         scrolledAngle = Math.round(scrolledAngle / 360) * 360 - (360 * flipDirection);
 
-        cursor.style.setProperty('--scroll-duration', '0.56s');
-        cursorShadow.style.setProperty('--scroll-duration', '0.56s');
+        cursor.style.setProperty('--scroll-duration', '.67s');
+        cursorShadow.style.setProperty('--scroll-duration', '.67s');
 
-        updateCursorTransforms(lastX, lastY);
+        updateCursorTransforms();
+
+        cursorPlayer++;
+
+        if (cursorPlayer > 4)
+          cursorPlayer = 1;
+
+        cursor.src = `assets/img/cursor-${cursorPlayer}.png`;
     }
 });
 }
 
-function updateCursorTransforms(x, y, calcAngle = true) {
+function updateCursorTransforms(x = lastX, y = lastY, calcAngle = true) {
   if(calcAngle) {
     let rawAngle = (-(lastX - x) + ((lastY - y) * cursorAnimationYMult));
     cursorAngle = clamp(baseCursorAngle + (rawAngle / channelScale * cursorAnimationSensitivity), -90, 90);
