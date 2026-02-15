@@ -63,6 +63,9 @@ function initCursor() {
       scrolledAngle += stepSize;
     }
 
+    cursor.style.setProperty('--scroll-duration', '0.28s');
+    cursorShadow.style.setProperty('--scroll-duration', '0.28s');
+
     updateCursorTransforms(lastX, lastY);
   });
 
@@ -71,7 +74,12 @@ function initCursor() {
         // Prevent the default "autoscroll" icon from appearing
         event.preventDefault(); 
 
-        scrolledAngle = Math.round(scrolledAngle / 360) * 360;
+        flipDirection = Math.sign(scrolledAngle % 360 - 180);
+        scrolledAngle = Math.round(scrolledAngle / 360) * 360 - (360 * flipDirection);
+
+        cursor.style.setProperty('--scroll-duration', '0.56s');
+        cursorShadow.style.setProperty('--scroll-duration', '0.56s');
+
         updateCursorTransforms(lastX, lastY);
     }
 });
