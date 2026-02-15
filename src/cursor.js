@@ -8,7 +8,7 @@ const baseShadowOffset = 5;
 const baseCursorAngle = -8;
 
 const cursorAnimationSensitivity = 1.1;
-const cursorAnimationYMult = 0.5;
+const cursorAnimationYMult = 0.6;
 
 let cursorAngle = -3;
 let scrolledAngle = 0;
