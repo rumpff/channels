@@ -135,7 +135,7 @@ html, body {
     display: grid;
     place-items: center;
 
-    transition-delay: 0ms;
+    transition-delay: 150ms;
     transition-duration: 0.15s;
     transition-property: opacity, transform;
     transition-timing-function: ease-out;
